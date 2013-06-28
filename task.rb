@@ -38,7 +38,7 @@ class Customer
     result = "Rental Record for #{@name}\n"
     @rentals.each do |element|
       this_amount = amount_for element
-      
+
       # add frequent renter points
       frequent_renter_points += 1
       # add bonus for a two day new release rental
@@ -55,25 +55,25 @@ class Customer
     result
   end
 
-  def amount_for (element)
+  def amount_for (rental)
 
-    this_amount = 0
+    result = 0
 
-    case element.movie.price_code
+    case rental.movie.price_code
 
       when Movie::REGULAR
-        this_amount += 2
-        this_amount += (element.days_rented - 2) * 1.5 if element.days_rented > 2
+        result += 2
+        result += (rental.days_rented - 2) * 1.5 if rental.days_rented > 2
       
       when Movie::NEW_RELEASE
-        this_amount += element.days_rented * 3
+        result += rental.days_rented * 3
       
       when Movie::CHILDRENS
-        this_amount += 1.5
-        this_amount += (element.days_rented - 3) * 1.5 if element.days_rented > 3
+        result += 1.5
+        result += (rental.days_rented - 3) * 1.5 if rental.days_rented > 3
     end
 
-    return this_amount
+    return result
   end
 
 end
