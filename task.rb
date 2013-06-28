@@ -1,4 +1,5 @@
 class Movie
+  
   REGULAR = 0
   NEW_RELEASE = 1
   CHILDRENS = 2
@@ -57,7 +58,7 @@ class Customer
         frequent_renter_points += 1
       end
       # show figures for this rental
-      result += "\t" + element.movie.title + "\t" + this_amount.to_s + "\n"
+      result += "\t" + element.movie.title.to_s + "\t" + this_amount.to_s + "\n"
       total_amount += this_amount
     end
     #add footer lines
