@@ -5,10 +5,11 @@ class Movie
   CHILDRENS = 2
 
   attr_reader :title
+  
   attr_reader :price_code
 
   def initialize(title, price_code)
-    @title, @price_code = title, price_code
+    @title, @price_code = title, set_price_code(price_code)
   end
 
   def set_price_code (price_code)
@@ -27,35 +28,17 @@ class Movie
   end
 
   def get_charge (days_rented)
-    @price.get_charge(days_rented)
+    return @price.get_charge(days_rented)
   end
 
   def get_frequent_renter_points (days_rented)
-    if @price_code == Movie::NEW_RELEASE && days_rented > 1
-        return 2
-    else
-        return 1
-    end
+    return @price.get_frequent_renter_points(days_rented)
   end
 end
 
 class Price
-  def get_charge (days_rented)
-    result = 0
-    case get_price_code()
-      when Movie::REGULAR
-        result += 2
-        result += (days_rented - 2) * 1.5 if days_rented > 2
-      
-      when Movie::NEW_RELEASE
-        result += days_rented * 3
-      
-      when Movie::CHILDRENS
-        result += 1.5
-        result += (days_rented - 3) * 1.5 if days_rented > 3
-    end
-
-    return result
+  def get_frequent_renter_points(days_rented)
+    return 1
   end
 end
 
@@ -63,17 +46,41 @@ class ChildrensPrice < Price
   def get_price_code
     return Movie::CHILDRENS
   end
+
+  def get_charge (days_rented)
+    result = 0
+    result += 1.5
+    result += (days_rented - 3) * 1.5 if days_rented > 3
+    return result
+  end
 end
 
 class NewReleasePrice < Price
   def get_price_code
     return Movie::NEW_RELEASE
   end
+
+  def get_frequent_renter_points(days_rented)
+    return ( days_rented > 2 ) ? 2 : 1;
+  end
+
+  def get_charge (days_rented)
+    result = 0
+    result += days_rented * 3
+    return result
+  end
 end
 
 class RegularPrice < Price
   def get_price_code
     return Movie::REGULAR
+  end
+
+  def get_charge (days_rented)
+    result = 0
+    result += 2
+    result += (days_rented - 2) * 1.5 if days_rented > 2
+    return result
   end
 end
 
