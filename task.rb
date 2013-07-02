@@ -76,6 +76,16 @@ class Customer
     result
   end
 
+  def html_statement
+    result = "<h1>Rentals for <em>#{@name}</em></h1>\n<p>";
+    @rentals.each do |element|
+      result += "#{element.movie.title.to_s} : #{element.get_charge.to_s} <br>\n";
+    end 
+    result += "</p>\n<p>Amount owed is <em>#{self.get_total_charge}</em></p>\n"
+    result += "<p>You earned <em>#{self.get_total_frequent_renter_points}</em> frequent renter points</p>"
+    return result
+  end
+
   def get_total_charge
     result = 0
     @rentals.each do |each| 
