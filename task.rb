@@ -10,6 +10,34 @@ class Movie
   def initialize(title, price_code)
     @title, @price_code = title, price_code
   end
+
+  def get_charge (days_rented)
+
+    result = 0
+
+    case @price_code
+      when Movie::REGULAR
+        result += 2
+        result += (days_rented - 2) * 1.5 if days_rented > 2
+      
+      when Movie::NEW_RELEASE
+        result += days_rented * 3
+      
+      when Movie::CHILDRENS
+        result += 1.5
+        result += (days_rented - 3) * 1.5 if days_rented > 3
+    end
+
+    return result
+  end
+
+  def get_frequent_renter_points (days_rented)
+    if @price_code == Movie::NEW_RELEASE && days_rented > 1
+        return 2
+    else
+        return 1
+    end
+  end
 end
 
 class Rental
@@ -20,34 +48,11 @@ class Rental
   end
 
   def get_charge
-
-    result = 0
-
-    case self.movie.price_code
-
-      when Movie::REGULAR
-        result += 2
-        result += (self.days_rented - 2) * 1.5 if self.days_rented > 2
-      
-      when Movie::NEW_RELEASE
-        result += self.days_rented * 3
-      
-      when Movie::CHILDRENS
-        result += 1.5
-        result += (self.days_rented - 3) * 1.5 if self.days_rented > 3
-    end
-
-    return result
-
+    return @movie.get_charge(@days_rented)
   end
 
   def get_frequent_renter_points
-    # add bonus for a two day new release rental
-    if self.movie.price_code == Movie::NEW_RELEASE && self.days_rented > 1
-        return 2
-    else
-        return 1
-    end
+    return @movie.get_frequent_renter_points(@days_rented)
   end
 
 end
