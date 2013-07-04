@@ -1,4 +1,4 @@
-require "./task"
+Dir.entries("task").each { |file| require "./task/#{file}" unless file =~ /^\.+$/ }
 
 require "test/unit"
  
