@@ -1,4 +1,4 @@
-class Price
+module Price
 
   def get_charge; end # abstract
 

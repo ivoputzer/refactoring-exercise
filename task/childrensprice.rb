@@ -1,6 +1,8 @@
-require "./task/price" # needs to be loaded
+require "./task/price"
 
-class ChildrensPrice < Price
+class ChildrensPrice
+
+  include Price
   
   def get_price_code
     Movie::CHILDRENS
