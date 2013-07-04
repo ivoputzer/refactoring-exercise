@@ -3,7 +3,7 @@ require "./task/price"
 class ChildrensPrice
 
   include Price
-  
+
   def get_price_code
     Movie::CHILDRENS
   end
